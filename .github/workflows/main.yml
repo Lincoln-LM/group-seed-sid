@@ -21,6 +21,14 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
+    - uses: mymindstorm/setup-emsdk@v14
+    - name: Verify
+      run: emcc -v
+    - name: build PokeFinderCore
+      run: |
+        cd src/wasm
+        make
+        cd ../../
     - name: Vite Github Pages Deployer
       uses: skywarth/vite-github-pages-deployer@v1.2.0
       id: deploy_to_pages
