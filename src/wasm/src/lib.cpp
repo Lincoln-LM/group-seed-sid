@@ -10,7 +10,6 @@ using MRNGR = LCRNG<0xFC77A683, 0xEEB9EB65>;
 std::optional<u32> find_group_seed(u16 lotto1, u16 lotto2, u16 lotto3)
 {
     u32 lotto1_seed = lotto1 << 16;
-    std::printf("hello");
     for (int i = 0; i < 0x10000; i++, lotto1_seed++)
     {
         // lotto logic:
