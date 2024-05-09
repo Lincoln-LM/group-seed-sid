@@ -27,6 +27,11 @@ jobs:
     - name: build PokeFinderCore
       run: |
         cd src/wasm
+        mkdir build
+        cd build
+        cmake ../
+        make
+        cd ../
         make
         cd ../../
     - name: Vite Github Pages Deployer
