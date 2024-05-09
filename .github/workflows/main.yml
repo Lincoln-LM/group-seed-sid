@@ -1,0 +1,27 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    environment:
+      name: demo
+      url: ${{ steps.deploy_to_pages.outputs.github_pages_url }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+    - name: Vite Github Pages Deployer
+      uses: skywarth/vite-github-pages-deployer@v1.2.0
+      id: deploy_to_pages
+      
