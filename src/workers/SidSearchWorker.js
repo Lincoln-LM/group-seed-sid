@@ -12,7 +12,7 @@ self.onmessage = (e) => {
       // workers do some path shenanigans
       // this is a hack to fix that
       locateFile: (path) => {
-        return import.meta.env.BASE_URL + path;
+        return import.meta.env.BASE_URL + "/" + path;
       }
     }).then((module) => {
       WasmLib = module;
