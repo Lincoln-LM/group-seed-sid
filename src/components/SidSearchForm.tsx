@@ -12,7 +12,14 @@ function SidSearchForm({
 }: {
   onSearch: () => void;
   groupSeed: number;
-  onResult: (seed: number, sid: number) => void;
+  onResult: (
+    seed: number,
+    sid: number,
+    hour: number,
+    min_sec: number,
+    advances: number,
+    delay: number
+  ) => void;
 }) {
   const [formData, setFormData] = useState({
     tid: 0,
@@ -37,10 +44,17 @@ function SidSearchForm({
       if (loaded) {
         if (typeof event.data === "number") {
           setProgress(
-            event.data / ((formData.delay_max - formData.delay_min) * 24 * 1.2)
+            event.data / ((formData.delay_max - formData.delay_min) * 24 * 1.19)
           );
         } else if (Array.isArray(event.data)) {
-          onResult(event.data[0], event.data[1]);
+          onResult(
+            event.data[0],
+            event.data[1],
+            event.data[2],
+            event.data[3],
+            event.data[4],
+            event.data[5]
+          );
         }
         return;
       }

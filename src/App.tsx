@@ -16,7 +16,9 @@ const darkTheme = createTheme({
 
 function App() {
   const [groupSeed, setGroupSeed] = useState(0);
-  const [rows, setRows] = useState<[number, number][]>([]);
+  const [rows, setRows] = useState<
+    [number, number, number, number, number, number][]
+  >([]);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <ThemeProvider theme={darkTheme}>
@@ -26,7 +28,9 @@ function App() {
           <LotteryForm onResult={setGroupSeed} />
           <SidSearchForm
             onSearch={() => setRows([])}
-            onResult={(seed, sid) => setRows([...rows, [seed, sid]])}
+            onResult={(seed, sid, hour, min_sec, advances, delay) =>
+              setRows([...rows, [seed, sid, hour, min_sec, advances, delay]])
+            }
             groupSeed={groupSeed}
           />
           <ResultTable rows={rows} />

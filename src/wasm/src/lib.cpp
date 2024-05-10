@@ -42,7 +42,7 @@ void find_sid_results(u16 tid, u32 group_seed, u8 day, u8 month, u32 delay_min, 
     for (u32 delay = delay_min; delay < delay_max; delay++)
     {
         u32 seed_high = (day * month) << 24;
-        for (int min_sec = 0; min_sec < 60 + 60; min_sec++, seed_high += 1 << 24)
+        for (int min_sec = 0; min_sec <= 59 + 59; min_sec++, seed_high += 1 << 24)
         {
             for (u32 seed_hour = 0; seed_hour < (24 << 16); seed_hour += 1 << 16)
             {
@@ -53,7 +53,8 @@ void find_sid_results(u16 tid, u32 group_seed, u8 day, u8 month, u32 delay_min, 
                 }
                 u32 seed = (seed_high | seed_hour) + delay;
                 MTFast<2> mt(seed, 0);
-                if (ARNGR::distance(group_seed, mt.next()) >= max_advances)
+                auto arng_advances = ARNGR::distance(group_seed, mt.next());
+                if (arng_advances >= max_advances)
                     continue;
                 u32 tidsid = mt.next();
                 if ((tidsid & 0xFFFF) != tid)
@@ -61,10 +62,16 @@ void find_sid_results(u16 tid, u32 group_seed, u8 day, u8 month, u32 delay_min, 
                 auto result = emscripten::val::array();
                 result.call<void>("push", seed);
                 result.call<void>("push", tidsid >> 16);
+                result.call<void>("push", seed_hour >> 16);
+                result.call<void>("push", min_sec);
+                result.call<void>("push", arng_advances);
+                result.call<void>("push", delay);
                 result_callback.call<void>("call", 0, result);
             }
         }
     }
+
+    update_callback.call<void>("call", 0, (delay_max - delay_min) * 24 * 119);
 }
 
 EMSCRIPTEN_BINDINGS(my_module)
