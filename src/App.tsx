@@ -29,7 +29,10 @@ function App() {
           <SidSearchForm
             onSearch={() => setRows([])}
             onResult={(seed, sid, hour, min_sec, advances, delay) =>
-              setRows([...rows, [seed, sid, hour, min_sec, advances, delay]])
+              setRows((rows) => [
+                ...rows,
+                [seed, sid, hour, min_sec, advances, delay],
+              ])
             }
             groupSeed={groupSeed}
           />

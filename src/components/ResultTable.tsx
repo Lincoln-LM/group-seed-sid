@@ -11,7 +11,6 @@ export default function ResultTable({
 }: {
   rows: [number, number, number, number, number, number][];
 }) {
-  console.log(rows);
   function buildRow(row: [number, number, number, number, number, number]) {
     const [seed, sid, hour, min_sec, advances, delay] = row;
     const max_value = Math.min(59, min_sec);
